@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="html-slides v0.9.4">
+<title>API-First Banking in an AI-Agent Economy · Deutsche Bank × TUM · sebis</title>
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   SHARED COMPONENT CSS  (html-slides Pro — verbatim core)
+   ═══════════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: var(--font-body, 'Inter, -apple-system, sans-serif');
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.deck { position: relative; width: 100vw; height: 100vh; }
+
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 30px 52px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.45s cubic-bezier(.4,0,.2,1);
+  overflow: hidden;
+  z-index: 1;
+}
+.slide.active { opacity: 1; pointer-events: auto; }
+
+.particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.particle { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: rgba(0,96,170,0.06); animation: floatP linear infinite; }
+@keyframes floatP { 0% { transform: translateY(100vh); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(-10vh) translateX(25px); opacity: 0; } }
+
+.progress-bar { position: fixed; bottom: 0; left: 0; height: 3px; z-index: 100; background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent-green)); transition: width 0.4s ease; }
+.slide-counter { position: fixed; bottom: 18px; right: 30px; font-size: 13px; font-weight: 500; color: var(--text-dim); z-index: 100; font-variant-numeric: tabular-nums; font-family: var(--font-mono); }
+.nav-hints { position: fixed; bottom: 18px; left: 30px; font-size: 12px; color: var(--text-dim); z-index: 100; }
+.nav-hints kbd { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; height: 22px; padding: 0 6px; background: rgba(0,0,0,0.03); border: 1px solid rgba(192,199,212,0.25); border-radius: 6px; font-size: 11px; margin: 0 2px; color: var(--text-dim); }
+.slide-nav { position: fixed; right: 15px; top: 50%; transform: translateY(-50%); z-index: 100; display: flex; flex-direction: column; gap: 6px; }
+.slide-nav-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(192,199,212,0.4); cursor: pointer; transition: all 0.3s ease; }
+.slide-nav-dot.active { background: var(--accent-blue); transform: scale(1.6); box-shadow: 0 0 12px rgba(0,96,170,0.3); }
+.slide-nav-dot:hover { background: rgba(0,96,170,0.4); transform: scale(1.3); }
+
+h1 { font-size: clamp(36px,5vw,60px); font-weight: 900; line-height: 1.08; letter-spacing: -1.2px; margin-bottom: 18px; text-align: center; }
+h2 { font-size: clamp(26px,3.3vw,42px); font-weight: 800; line-height: 1.12; letter-spacing: -0.6px; margin-bottom: 10px; text-align: center; position: relative; }
+.subtitle { font-size: clamp(16px, 1.7vw, 22px); color: var(--text-muted); font-weight: 400; line-height: 1.5; text-align: center; max-width: 840px; }
+
+.highlight-orange { color: var(--accent-orange); }
+.highlight-blue { color: var(--accent-blue); }
+.highlight-green { color: var(--accent-green); }
+.highlight-purple { color: var(--accent-purple); }
+.gradient-text { background: linear-gradient(120deg, var(--accent-blue) 10%, var(--accent-purple) 90%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.rainbow-line { width: 220px; height: 3px; background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent-green)); border-radius: 3px; margin: 16px 0; }
+
+.glow-blob { position: absolute; width: 460px; height: 460px; border-radius: 50%; filter: blur(120px); opacity: 0.07; pointer-events: none; z-index: 0; }
+.glow-blue { background: var(--accent-blue-container); }
+.glow-purple { background: var(--accent-purple-container); }
+.glow-green { background: var(--accent-green); }
+
+@keyframes fadeInUp { from { opacity:0; transform:translateY(26px); } to { opacity:1; transform:translateY(0); } }
+@keyframes scaleReveal { 0% { opacity:0; transform: scale(0.9); } 100% { opacity:1; transform: scale(1); } }
+@keyframes driftOrb { 0%,100% { transform: translate(0,0);} 25%{transform:translate(15px,-20px);} 50%{transform:translate(-10px,-35px);} 75%{transform:translate(-20px,-15px);} }
+
+.slide.active .anim-1 { animation: fadeInUp 0.4s cubic-bezier(0.22,1,0.36,1) 0.05s both; }
+.slide.active .anim-2 { animation: fadeInUp 0.4s cubic-bezier(0.22,1,0.36,1) 0.13s both; }
+.slide.active .anim-3 { animation: fadeInUp 0.45s cubic-bezier(0.22,1,0.36,1) 0.22s both; }
+.slide.active .anim-4 { animation: fadeInUp 0.4s cubic-bezier(0.22,1,0.36,1) 0.33s both; }
+.slide.active .anim-5 { animation: fadeInUp 0.4s cubic-bezier(0.22,1,0.36,1) 0.44s both; }
+.slide.active .bounce-1 { animation: scaleReveal 0.4s cubic-bezier(0.22,1,0.36,1) 0.12s both; }
+.slide.active .bounce-2 { animation: scaleReveal 0.4s cubic-bezier(0.22,1,0.36,1) 0.22s both; }
+.slide.active .bounce-3 { animation: scaleReveal 0.4s cubic-bezier(0.22,1,0.36,1) 0.32s both; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+/* ═══════════════════════════════════════════════════════════════
+   EDITORIAL-LIGHT PALETTE + ATMOSPHERE
+   ═══════════════════════════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+:root {
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'Space Grotesk', 'JetBrains Mono', monospace;
+  --bg: #f7f8fe; --bg-card: #ffffff; --bg-card-hover: #f1f3fc; --surface-container: #eaecf6;
+  --text: #181b21; --text-muted: #424854; --text-dim: #767c89;
+  --accent-blue: #0060aa; --accent-blue-container: #58a6ff;
+  --accent-green: #1f7a34; --accent-orange: #e8590c; --accent-red: #ba1a1a;
+  --accent-purple: #6a37c0; --accent-purple-container: #aa78ff; --accent-yellow: #c48f00;
+  --border: rgba(150,162,185,0.22); --border-hover: rgba(120,135,165,0.42); --outline-variant: #c0c7d4;
+}
+.slide-tag { font-family: var(--font-mono); font-size: clamp(12px, 1.15vw, 14.5px); font-weight: 600; letter-spacing: 2.4px; text-transform: uppercase; color: var(--accent-blue); margin-bottom: 14px; display: inline-flex; align-items: center; gap: 9px; }
+.slide-tag::before { content: ''; width: 22px; height: 3px; border-radius: 3px; background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple)); display: inline-block; }
+h2.ruled { padding-bottom: 15px; }
+h2.ruled::after { content: ''; position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 60px; height: 3px; border-radius: 3px; background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple)); }
+
+/* layered background: dot grid + gradient zones + golden line */
+body::before { content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(80,110,160,0.07) 1px, transparent 1.4px);
+  background-size: 30px 30px; opacity: 0.55; }
+.deck::before { content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background: radial-gradient(ellipse 70% 55% at 82% 6%, rgba(106,55,192,0.06) 0%, transparent 55%),
+              radial-gradient(ellipse 70% 55% at 8% 94%, rgba(0,96,170,0.05) 0%, transparent 55%); }
+.deck::after { content:''; position:fixed; top:8%; bottom:8%; left:61.8%; width:1px; z-index:0; pointer-events:none;
+  background: linear-gradient(to bottom, transparent, rgba(150,162,185,0.16), transparent); }
+.glow-blob { animation: driftOrb 42s ease-in-out infinite; }
+.glow-purple { animation-duration: 36s; animation-direction: reverse; }
+
+/* top accent rail (framed premium look) */
+.top-rail { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 95; background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple) 55%, var(--accent-green)); opacity: .9; }
+
+/* ═══════════════════════════════════════════════════════════════
+   BRANDING (TUM + sebis, transparent logos) & FOOTER
+   ═══════════════════════════════════════════════════════════════ */
+.brand-lock { position: fixed; top: 17px; right: 28px; z-index: 120; display: flex; align-items: center; gap: 13px; }
+.brand-lock img.tum { height: 34px; display: block; }
+.brand-lock .divider { width: 1px; height: 26px; background: var(--outline-variant); opacity: .5; }
+.brand-lock img.sebis { height: 23px; display: block; }
+.deck-footer { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 100; font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); letter-spacing: .02em; white-space: nowrap; }
+
+/* ═══════════════════════════════════════════════════════════════
+   TITLE META CHIPS
+   ═══════════════════════════════════════════════════════════════ */
+.meta-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 14px; max-width: 960px; }
+.meta-chip { font-family: var(--font-mono); font-size: clamp(12px,1.15vw,14.5px); font-weight: 600; color: var(--text-muted); background: var(--bg-card); border: 1px solid var(--border); border-radius: 999px; padding: 9px 17px; box-shadow: 0 4px 22px rgba(24,27,33,.05); }
+.meta-chip b { color: var(--accent-blue); }
+
+/* ═══════════════════════════════════════════════════════════════
+   AGENDA
+   ═══════════════════════════════════════════════════════════════ */
+.ag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 26px; width: 100%; max-width: 1000px; margin-top: 26px; }
+.ag-item { display: flex; align-items: center; gap: 15px; padding: 13px 18px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 13px; box-shadow: 0 3px 22px rgba(24,27,33,.05); transition: all .3s cubic-bezier(.22,1,.36,1); }
+.ag-item:hover { transform: translateX(7px); border-color: var(--border-hover); box-shadow: 0 10px 38px rgba(24,27,33,.09); }
+.ag-num { font-family: var(--font-mono); font-weight: 700; color: #fff; font-size: clamp(13px,1.25vw,15px); min-width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); flex-shrink: 0; }
+.ag-text { font-size: clamp(14px,1.3vw,17px); font-weight: 500; color: var(--text); }
+
+/* ═══════════════════════════════════════════════════════════════
+   DRIVER CARDS + STRATEGIC OPTIONS (motivation)
+   ═══════════════════════════════════════════════════════════════ */
+.driver-row { display: flex; gap: 18px; width: 100%; max-width: 1020px; }
+.driver { flex: 1; border-radius: 16px; padding: 19px 23px; color: #fff; box-shadow: 0 12px 38px rgba(24,27,33,.13); position: relative; overflow: hidden; }
+.driver::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 88% 0%, rgba(255,255,255,.16), transparent 55%); pointer-events: none; }
+.driver .dico { font-size: 20px; }
+.driver .dl { font-family: var(--font-mono); font-size: 11.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; opacity: .82; margin-top: 4px; }
+.driver .dt { font-size: clamp(17px,1.7vw,22px); font-weight: 800; margin-top: 3px; }
+.driver .dd { font-size: clamp(12.5px,1.2vw,15.5px); opacity: .96; margin-top: 6px; line-height: 1.45; }
+.driver.reg { background: linear-gradient(135deg, #022d50, #015293); }
+.driver.mkt { background: linear-gradient(135deg, #b8480d, #e8590c); }
+
+.opt-row { display: flex; gap: 14px; width: 100%; max-width: 1020px; }
+.opt { flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 13px; padding: 14px 17px; box-shadow: 0 3px 22px rgba(24,27,33,.05); position: relative; overflow: hidden; transition: all .3s ease; }
+.opt::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--c,#0060aa); }
+.opt:hover { transform: translateY(-4px); box-shadow: 0 12px 38px rgba(24,27,33,.1); border-color: var(--border-hover); }
+.opt .on { font-weight: 800; color: var(--c,#0060aa); font-size: clamp(15px,1.5vw,19px); margin-top: 4px; }
+.opt .od { font-size: clamp(12px,1.15vw,15px); color: var(--text-muted); margin-top: 5px; line-height: 1.45; }
+
+/* ═══════════════════════════════════════════════════════════════
+   RESEARCH QUESTION
+   ═══════════════════════════════════════════════════════════════ */
+.rq-hero { width: 100%; max-width: 1040px; border-radius: 18px; padding: 26px 34px; background: linear-gradient(125deg, #024e8c 0%, var(--accent-blue) 45%, #6a37c0 100%); color: #fff; box-shadow: 0 20px 54px rgba(0,96,170,.22); position: relative; overflow: hidden; }
+.rq-hero::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 92% -10%, rgba(255,255,255,.18), transparent 50%); pointer-events: none; }
+.rq-hero .rl { font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; opacity: .88; }
+.rq-hero .rm { font-size: clamp(19px,2.25vw,29px); font-weight: 800; line-height: 1.3; margin-top: 8px; }
+.subq-row { display: flex; gap: 14px; width: 100%; max-width: 1040px; margin-top: 16px; }
+.subq { flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 13px; padding: 15px 17px; box-shadow: 0 3px 22px rgba(24,27,33,.05); position: relative; overflow: hidden; transition: all .3s ease; }
+.subq::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--c,#0060aa); }
+.subq:hover { transform: translateY(-4px); box-shadow: 0 12px 38px rgba(24,27,33,.1); }
+.subq .sl { font-family: var(--font-mono); font-weight: 700; color: var(--c,#0060aa); font-size: clamp(13px,1.3vw,16px); margin-top: 4px; }
+.subq .st { font-size: clamp(12.5px,1.2vw,15.5px); color: var(--text-muted); margin-top: 6px; line-height: 1.45; }
+
+/* ═══════════════════════════════════════════════════════════════
+   4-LENS EVALUATION FRAMEWORK
+   ═══════════════════════════════════════════════════════════════ */
+.lens-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 13px; width: 100%; max-width: 1220px; margin-top: 16px; }
+.lens-card2 { background: var(--bg-card); border: 1px solid var(--border); border-radius: 13px; overflow: hidden; box-shadow: 0 3px 24px rgba(24,27,33,.05); display: flex; flex-direction: column; transition: all .3s cubic-bezier(.22,1,.36,1); }
+.lens-card2:hover { transform: translateY(-5px); box-shadow: 0 14px 44px rgba(24,27,33,.1); border-color: var(--border-hover); }
+.lens-h { color: #fff; padding: 10px 14px; font-size: clamp(12.5px,1.25vw,15px); font-weight: 700; font-family: var(--font-mono); display: flex; align-items: center; gap: 8px; }
+.lens-h .lico { font-size: 15px; filter: drop-shadow(0 1px 2px rgba(0,0,0,.25)); }
+.lens-b { padding: 12px 14px; font-size: clamp(11px,1.05vw,13px); line-height: 1.5; color: var(--text-muted); }
+.lens-b ul { margin: 0; padding-left: 16px; } .lens-b li { margin-bottom: 5px; } .lens-b b { color: var(--text); }
+.lens-econ .lens-h { background: linear-gradient(135deg, #166128, var(--accent-green)); }
+.lens-data .lens-h { background: linear-gradient(135deg, #024e8c, var(--accent-blue)); }
+.lens-tech .lens-h { background: linear-gradient(135deg, #013e6e, #015293); }
+.lens-reg  .lens-h { background: linear-gradient(135deg, #b8480d, var(--accent-orange)); }
+
+/* ═══════════════════════════════════════════════════════════════
+   FLOW (UC slides) + METHODOLOGY FLOW
+   ═══════════════════════════════════════════════════════════════ */
+   
+.flow { display: flex; align-items: stretch; gap: 11px; width: 100%; max-width: 1160px; margin-top: 8px; justify-content: center; }
+.flow-box { flex: 1; border-radius: 14px; padding: 14px 13px; text-align: center; color: #fff; box-shadow: 0 10px 30px rgba(24,27,33,.12); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+.flow-box::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% -20%, rgba(255,255,255,.18), transparent 60%); pointer-events: none; }
+.flow-box .fic { font-size: 22px; margin-bottom: 5px; }
+.flow-box .fl { font-size: clamp(13px,1.35vw,18px); font-weight: 800; }
+.flow-box .fs { font-size: clamp(10.5px,1vw,12.5px); opacity: .93; margin-top: 3px; line-height: 1.3; }
+.flow-box.b1 { background: linear-gradient(135deg, #022d50, #014a80); }
+.flow-box.b2 { background: linear-gradient(135deg, #014a80, #0060aa); }
+.flow-box.b3 { background: linear-gradient(135deg, #0a63ab, #3279bd); }
+.flow-box.b4 { background: linear-gradient(135deg, #b8480d, #e8590c); }
+.flow-ar { color: var(--accent-blue); font-size: 22px; flex-shrink: 0; align-self: center; opacity: .55; font-weight: 700; }
+
+.mflow { display: flex; align-items: stretch; gap: 9px; width: 100%; max-width: 1220px; margin-top: 8px; }
+.mbox { flex: 1; border-radius: 12px; padding: 13px 11px; text-align: center; color: #fff; display: flex; flex-direction: column; justify-content: flex-start; box-shadow: 0 8px 26px rgba(24,27,33,.1); position: relative; overflow: hidden; }
+.mbox::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% -25%, rgba(255,255,255,.16), transparent 60%); pointer-events: none; }
+.mbox .mico { font-size: 19px; margin-bottom: 4px; }
+.mbox .ml { font-size: clamp(12px,1.2vw,15px); font-weight: 800; line-height: 1.15; }
+.mbox .ms { font-size: clamp(10px,0.95vw,12px); opacity: .92; margin-top: 4px; line-height: 1.3; }
+.mbox.m1 { background: linear-gradient(135deg,#022d50,#024a80); }
+.mbox.m2 { background: linear-gradient(135deg,#024a80,#0060aa); }
+.mbox.m3 { background: linear-gradient(135deg,#0a63ab,#2f73b9); }
+.mbox.m4 { background: linear-gradient(135deg,#4f2c9a,#6a37c0); }
+.mbox.m5 { background: linear-gradient(135deg,#b8480d,#e8590c); }
+.mar { align-self: center; color: var(--accent-blue); font-size: 16px; flex-shrink: 0; opacity: .5; }
+
+/* ═══════════════════════════════════════════════════════════════
+   STRATEGIC-FIT / EVIDENCE ROW
+   ═══════════════════════════════════════════════════════════════ */
+.fit-row { display: flex; gap: 11px; width: 100%; max-width: 1220px; margin-top: 12px; }
+.fit { flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 11px; padding: 10px 14px; font-size: clamp(11px,1.05vw,13px); color: var(--text-muted); line-height: 1.45; box-shadow: 0 3px 18px rgba(24,27,33,.04); border-left: 3px solid var(--text-dim); }
+.fit b { display: block; font-family: var(--font-mono); font-size: clamp(10.5px,1vw,12.5px); letter-spacing: .04em; text-transform: uppercase; margin-bottom: 4px; }
+.fit.ex { flex: 2; border-left-color: #015293; } .fit.ex b { color: #015293; }
+.fit.op { border-left-color: var(--accent-green); } .fit.op b { color: var(--accent-green); }
+.fit.co { border-left-color: var(--accent-blue); } .fit.co b { color: var(--accent-blue); }
+.fit.ri { border-left-color: var(--accent-orange); } .fit.ri b { color: var(--accent-orange); }
+
+/* ═══════════════════════════════════════════════════════════════
+   PILLS, FUNNEL CHIPS, CRITERIA
+   ═══════════════════════════════════════════════════════════════ */
+.pill { display: inline-block; border-radius: 999px; padding: 3px 13px; font-size: clamp(11px,1.1vw,13px); font-weight: 700; color: #fff; font-family: var(--font-mono); vertical-align: middle; }
+.pill.b2b2c { background: linear-gradient(135deg,#022d50,#015293); } .pill.b2c { background: linear-gradient(135deg,#b8480d,#e8590c); }
+
+.uc-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; width: 100%; max-width: 1200px; margin-top: 12px; }
+.uc-chip { background: var(--bg-card); border: 1px solid var(--border); border-radius: 11px; padding: 10px 13px; box-shadow: 0 3px 16px rgba(24,27,33,.04); transition: all .25s ease; position: relative; }
+.uc-chip:hover { transform: translateY(-4px); border-color: var(--border-hover); box-shadow: 0 10px 30px rgba(24,27,33,.08); }
+.uc-chip .ucn { font-family: var(--font-mono); font-weight: 700; color: var(--text-dim); font-size: 12px; margin-right: 6px; }
+.uc-chip .uct { font-weight: 700; color: var(--text); font-size: clamp(12px,1.1vw,14px); }
+.uc-chip .ucd { font-size: clamp(10px,0.95vw,12px); color: var(--text-muted); margin-top: 2px; line-height: 1.3; }
+.uc-chip.focus { border-color: transparent; background: linear-gradient(135deg, rgba(0,96,170,.1), rgba(106,55,192,.08)); box-shadow: 0 0 0 1.5px var(--accent-blue), 0 8px 28px rgba(0,96,170,.16); }
+.uc-chip.focus .ucn { color: var(--accent-blue); }
+.uc-chip.focus .uct::after { content: ' ★'; color: var(--accent-orange); font-size: 11px; }
+
+.crit-row { display: flex; flex-wrap: wrap; gap: 9px; justify-content: center; margin-top: 14px; }
+.crit { font-family: var(--font-mono); font-size: clamp(11px,1.05vw,13.5px); font-weight: 600; color: #fff; border-radius: 999px; padding: 8px 16px; box-shadow: 0 6px 20px rgba(24,27,33,.1); }
+
+.note-line { font-size: clamp(12.5px,1.2vw,15.5px); color: var(--text-muted); max-width: 1140px; margin-top: 15px; line-height: 1.5; text-align: center; }
+.note-line b { color: var(--text); }
+
+/* ═══════════════════════════════════════════════════════════════
+   DELIVERABLES
+   ═══════════════════════════════════════════════════════════════ */
+.deliv-list { display: flex; flex-direction: column; gap: 11px; width: 100%; max-width: 960px; margin-top: 20px; }
+.deliv { display: flex; gap: 15px; align-items: center; background: var(--bg-card); border: 1px solid var(--border); border-radius: 13px; padding: 13px 19px; box-shadow: 0 3px 20px rgba(24,27,33,.05); transition: all .3s cubic-bezier(.22,1,.36,1); }
+.deliv:hover { transform: translateX(7px); border-color: var(--border-hover); box-shadow: 0 10px 36px rgba(24,27,33,.09); }
+.deliv .dn { min-width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-family: var(--font-mono); flex-shrink: 0; box-shadow: 0 4px 14px rgba(0,96,170,.25); }
+.deliv.last .dn { background: linear-gradient(135deg, #b8480d, var(--accent-orange)); box-shadow: 0 4px 14px rgba(232,89,12,.25); }
+.deliv .dx { font-size: clamp(13.5px,1.3vw,17px); color: var(--text); line-height: 1.4; } .deliv .dx b { font-weight: 700; }
+
+/* ═══════════════════════════════════════════════════════════════
+   COMPARISON TABLE + RECOMMENDATION
+   ═══════════════════════════════════════════════════════════════ */
+.ctable { width: 100%; max-width: 1100px; margin-top: 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 15px; overflow: hidden; box-shadow: 0 4px 30px rgba(24,27,33,.06); }
+.ctable table { width: 100%; border-collapse: collapse; font-size: clamp(12.5px,1.25vw,16px); }
+.ctable th { padding: 12px 19px; text-align: left; font-family: var(--font-mono); font-weight: 700; background: var(--bg-card-hover); border-bottom: 1px solid var(--border); }
+.ctable th.h4 { color: var(--accent-blue); } .ctable th.h5 { color: var(--accent-orange); }
+.ctable td { padding: 10px 19px; border-bottom: 1px solid var(--border); color: var(--text); }
+.ctable td.lh { font-weight: 700; color: var(--text-muted); }
+.ctable tr:last-child td { border-bottom: none; }
+.ctable tr:hover td { background: var(--bg-card-hover); }
+.ctable .shared { font-weight: 700; color: var(--accent-blue); text-align: center; background: linear-gradient(90deg, rgba(0,96,170,.05), rgba(106,55,192,.05)); }
+
+.rec-box { width: 100%; max-width: 1100px; margin-top: 14px; border-radius: 15px; padding: 17px 26px; background: linear-gradient(125deg, #135e22, var(--accent-green) 70%, #2c8f3f); color: #fff; box-shadow: 0 14px 44px rgba(31,122,52,.2); position: relative; overflow: hidden; }
+.rec-box::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 90% -20%, rgba(255,255,255,.16), transparent 50%); pointer-events: none; }
+.rec-box .rl { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; opacity: .88; }
+.rec-box .rtt { font-size: clamp(15px,1.6vw,21px); font-weight: 800; line-height: 1.35; margin-top: 5px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   FINDINGS COLUMNS
+   ═══════════════════════════════════════════════════════════════ */
+.col2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 100%; max-width: 1140px; margin-top: 18px; align-items: start; }
+.col-label { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 11px; display: flex; align-items: center; gap: 8px; }
+.col-label::before { content: ''; width: 16px; height: 3px; border-radius: 3px; background: var(--accent-blue); }
+.col-label.alt::before { background: var(--accent-purple); }
+.fcard { background: var(--bg-card); border: 1px solid var(--border); border-left: 4px solid var(--c,#0060aa); border-radius: 0 12px 12px 0; padding: 12px 16px; margin-bottom: 11px; box-shadow: 0 3px 18px rgba(24,27,33,.04); transition: all .3s ease; }
+.fcard:hover { transform: translateX(6px); box-shadow: 0 10px 32px rgba(24,27,33,.09); }
+.fcard .ft { font-weight: 700; color: var(--c,#0060aa); font-size: clamp(13px,1.25vw,16px); }
+.fcard .fb { font-size: clamp(12px,1.15vw,14.5px); color: var(--text-muted); margin-top: 4px; line-height: 1.45; }
+
+/* ═══════════════════════════════════════════════════════════════
+   TIMELINE
+   ═══════════════════════════════════════════════════════════════ */
+.roadmap { display: flex; align-items: stretch; gap: 11px; width: 100%; max-width: 1220px; margin-top: 24px; }
+.rm-phase { flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 15px; padding: 17px 15px; display: flex; flex-direction: column; box-shadow: 0 5px 30px rgba(24,27,33,.06); transition: all .3s cubic-bezier(.22,1,.36,1); position: relative; overflow: hidden; }
+.rm-phase::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--c,#0060aa); }
+.rm-phase:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(24,27,33,.11); }
+.rm-phase.now { box-shadow: 0 0 0 2px var(--accent-orange), 0 12px 38px rgba(232,89,12,.16); }
+.rm-no { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c,#0060aa); margin-top: 4px; }
+.rm-phase.now .rm-no { color: var(--accent-orange); }
+.rm-date { font-size: clamp(15px,1.6vw,21px); font-weight: 800; color: var(--text); margin-top: 3px; }
+.rm-name { font-size: clamp(12.5px,1.25vw,15.5px); font-weight: 700; margin-top: 9px; line-height: 1.25; }
+.rm-sum { font-size: clamp(11px,1.05vw,13px); color: var(--text-muted); margin-top: 7px; line-height: 1.45; }
+.rm-conn { align-self: center; color: var(--accent-blue); font-size: 16px; flex-shrink: 0; opacity: .5; }
+
+/* ═══════════════════════════════════════════════════════════════
+   CLOSING METRIC PILLS
+   ═══════════════════════════════════════════════════════════════ */
+.metric-strip { display: flex; flex-wrap: wrap; gap: 11px; justify-content: center; margin-top: 22px; }
+.metric-pill { font-family: var(--font-mono); font-size: clamp(12px,1.15vw,14.5px); font-weight: 600; color: var(--text); background: var(--bg-card); border: 1px solid var(--border); border-radius: 999px; padding: 10px 17px; box-shadow: 0 4px 22px rgba(24,27,33,.05); }
+.metric-pill .d { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; vertical-align: middle; }
+
+/* ═══════════════════════════════════════════════════════════════
+   HEIGHT BREAKPOINTS — keep dense slides fitting (no scroll, ever)
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-height: 760px) {
+  .slide { padding: 22px 48px; }
+  .lens-b { font-size: 11px; padding: 10px 12px; }
+  .lens-b li { margin-bottom: 4px; }
+}
+@media (max-height: 640px) {
+  .slide { padding: 14px 44px; }
+  .flow-box { padding: 10px 11px; } .flow-box .fic { font-size: 18px; margin-bottom: 3px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INLINE EDITOR (press E)
+   ═══════════════════════════════════════════════════════════════ */
+.edit-hotzone { position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 10000; cursor: pointer; }
+.edit-toggle { position: fixed; top: 16px; left: 16px; width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-card); font-size: 18px; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity .3s ease, transform .2s ease; z-index: 10001; box-shadow: 0 4px 18px rgba(24,27,33,.14); }
+.edit-toggle:hover { transform: scale(1.08); }
+.edit-toggle.show, .edit-toggle.active { opacity: 1; pointer-events: auto; }
+.edit-toggle.active { background: var(--accent-blue); color: #fff; }
+#editBar { position: fixed; top: 14px; left: 50%; transform: translateX(-50%) translateY(-80px); z-index: 10002; display: flex; align-items: center; gap: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 8px 14px; box-shadow: 0 10px 38px rgba(24,27,33,.18); transition: transform .35s cubic-bezier(.22,1,.36,1); font-size: 13px; }
+body.editing #editBar { transform: translateX(-50%) translateY(0); }
+#editBar .ebtn { font-family: var(--font-mono); font-size: 12.5px; font-weight: 600; border: 1px solid var(--border); background: var(--bg-card-hover); color: var(--text); border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+#editBar .ebtn.primary { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); }
+#editBar .estatus { color: var(--text-dim); font-family: var(--font-mono); }
+body.editing [contenteditable="true"] { outline: 1px dashed rgba(0,96,170,.5); outline-offset: 3px; border-radius: 3px; cursor: text; }
+body.editing [contenteditable="true"]:focus { outline: 2px solid var(--accent-blue); background: rgba(0,96,170,.05); }
+
+/* ═══════════════════════════════════════════════════════════════
+   PRINT FALLBACK (browser → PDF; one slide per page)
+   ═══════════════════════════════════════════════════════════════ */
+@media print {
+  @page { size: 1280px 720px; margin: 0; }
+  .brand-lock, .deck-footer, .slide-nav, .progress-bar, .slide-counter, .nav-hints, .top-rail,
+  .edit-hotzone, .edit-toggle, #editBar, .particles { display: none !important; }
+  html, body { overflow: visible !important; height: auto !important; background: #fff !important; }
+  body::before { display: none !important; }
+  .deck { position: static !important; width: auto !important; height: auto !important; }
+  .deck::before, .deck::after { display: none !important; }
+  .slide { position: relative !important; inset: auto !important; opacity: 1 !important; pointer-events: auto !important;
+           width: 1280px !important; height: 720px !important; page-break-after: always; break-after: page; }
+  .slide * { animation: none !important; }
+}
+
+.bmc-wrap {
+  width: 100%;
+  max-width: 1180px;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 1.25fr 1fr 1.1fr;
+  grid-template-rows: 130px 130px 105px;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.bmc-card {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 13px 14px;
+  cursor: pointer;
+  box-shadow: 0 3px 18px rgba(24,27,33,.05);
+  transition: all .25s ease;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.bmc-card b {
+  display: block;
+  font-size: 14px;
+  color: var(--accent-blue);
+  margin-bottom: 7px;
+  font-family: var(--font-mono);
+}
+
+.bmc-card:hover,
+.bmc-card.active {
+  transform: translateY(-4px);
+  border-color: var(--accent-orange);
+  box-shadow: 0 12px 30px rgba(232,89,12,.16);
+  background: linear-gradient(135deg, #fff, #fff7f0);
+}
+
+.kp { grid-row: 1 / 3; grid-column: 1; }
+.ka { grid-row: 1; grid-column: 2; }
+.kr { grid-row: 2; grid-column: 2; }
+.vp { grid-row: 1 / 3; grid-column: 3; }
+.cr { grid-row: 1; grid-column: 4; }
+.ch { grid-row: 2; grid-column: 4; }
+.cs { grid-row: 1 / 3; grid-column: 5; }
+.cost { grid-row: 3; grid-column: 1 / 3; }
+.rev { grid-row: 3; grid-column: 3 / 6; }
+
+.bmc-panel {
+  width: 100%;
+  max-width: 1180px;
+  margin-top: 12px;
+  padding: 13px 20px;
+  border-radius: 14px;
+  background: linear-gradient(125deg, #024e8c, #0060aa, #6a37c0);
+  color: white;
+  box-shadow: 0 14px 36px rgba(0,96,170,.18);
+}
+
+.bmc-panel b {
+  font-family: var(--font-mono);
+  font-size: 14px;
+}
+
+.bmc-panel p {
+  margin-top: 4px;
+  font-size: 15px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="top-rail"></div>
+<div class="particles" id="particles"></div>
+<div class="slide-nav" id="slideNav"></div>
+<div class="progress-bar" id="progress"></div>
+<div class="slide-counter" id="counter"></div>
+<div class="nav-hints"><span><kbd>&larr;</kbd><kbd>&rarr;</kbd> navigate &nbsp;·&nbsp; <kbd>E</kbd> edit</span></div>
+
+<!-- Persistent branding (TUM + sebis, transparent) -->
+<div class="brand-lock">
+  <img class="tum" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA8AAAAH0CAMAAADFfLQ7AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAV1BMVEUAAAAycrIxcbM3bbYwcLMzc7MwcLMvcLMwcbMwcLMvcbMubbYwcLMwcLIvcbMxcLMwcLMxcLMwcLMwcLMwcLQzc7MwcLMxcLIwbrQwcLMzZrMwcLP///+k3P/SAAAAG3RSTlMAOJMO8ijYglrAGxzWe1G9eVS2r7oUm1k6iQpsJ01cAAAAAWJLR0QcnARBBwAAAAd0SU1FB+kLGRM0MsrDdrAAAAkNSURBVHja7dNXDsJAEERBg8k5mHz/e3KD/UDqkZDrnWB67eo+Km3SFTX11mOo8wQAC2ABLIABBlgAAwwwwAJYAAtgAQwwwAIYYAEsgAUwwAALYIABBlgAC2ABLIABBlgAAyyABbAAFsACGGCABTDAAlgAC2CAARbAAAMMsAAWwAJYAAMMsAAGWAALYAEMMMACGGCABTDAAlgAC2CAARbAAAMMsAAWwAJYAAMMsAAGWAALYAEMMMACGGCAARbAAlgAC2CAARbAAAMMsAAWwAJYAAMMsAAGWAALYAEMMMACGGCAARbAAlgAC2CAARbAAAtgASyABbAABhhgAQywABbAAhhggAUwwAADLIAFsAAWwAADLIABFsACWAADDLAABhhgAQywABbAAhhggAUwwAADLIAFsAAWwAADLIABFsACWAADDLAABhhggAWwABbAAhhggAUwwAJYAAtgASyAAQZYAAMsgAWwAAYYYAEMMMAjBdwHmwUPnwfvXgDcbtkXtQqOWFeN2EQBJ0sC3gbv3gHcbl814hAccawa0QMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMD/Avh0LuoCMMAAC2CAAQYYYIABBhhggAEGGGCAAQYYYIABBhhggAEGGGCAAQYYYIABBhhggAEGGGCAAQZYAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMACGGCAAQYYYIABBhhggAEGGGCAAQYYYIABBhhggAEGWAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAhhggAEGGGCAAQYYYIABBhhggAEGGGCAAQYYYIABBhhggAEGGGCAAQYYYIABBhhggAEWwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwIgCDDDAAAMMMMAAAwwwwAADDLAABhhggAEGGGCAAQYYYIABBhhggAEGGGCAAQYYYIABFsAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwywAAYYYIABBhhggAEGGGCAAQYYYIABBhhggAEGGGCAAQYYYIABBhhggAEGGGCAAQYY4F+6Drluwbvvg5o9qv79Z3DEq2rEO/kpviTkg+f3pMGeAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI1LTExLTI1VDE5OjUyOjUwKzAwOjAwfC3+eAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNS0xMS0yNVQxOTo1Mjo1MCswMDowMA1wRsQAAAAASUVORK5CYII=" alt="TUM">
+  <span class="divider"></span>
+  <img class="sebis" src="data:image/png;base64,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" alt="sebis">
+</div>
+<div class="deck-footer">© sebis · 260609 DB-Team · API-First Banking in an AI-Agent Economy · TUM</div>
+
+<!-- Inline editor controls -->
+<div class="edit-hotzone"></div>
+<button class="edit-toggle" id="editToggle" title="Edit mode (E)">&#9998;</button>
+<div id="editBar">
+  <span class="estatus" id="editStatus">Edit mode: click any text</span>
+  <button class="ebtn" id="editExport">Export HTML</button>
+  <button class="ebtn" id="editReset">Reset</button>
+  <button class="ebtn primary" id="editDone">Done</button>
+</div>
+
+<div class="deck" id="deck">
+
+  <!-- ════ SLIDE 0 · TITLE ════ -->
+  <div class="slide active" data-slide="0">
+    <div class="glow-blob glow-blue" style="top:-110px;left:-90px;"></div>
+    <div class="glow-blob glow-purple" style="bottom:-130px;right:-80px;"></div>
+    <p class="slide-tag anim-1">Intermediate Presentation · SITM Mini-Project · Summer 2026</p>
+    <h1 class="anim-2">API-First Banking in an<br><span class="gradient-text">AI-Agent Economy</span></h1>
+    <p class="subtitle anim-3">How Deutsche Bank can turn its established API program into sustainable business models — with or without FIDA.</p>
+    <div class="rainbow-line anim-4" style="margin-left:auto;margin-right:auto;"></div>
+    <div class="meta-row anim-5">
+      <span class="meta-chip"><b>Team</b> Daniel Bier · Han Yang · Katsiaryna Panko · Marvin Chimeka · Paul Konopka</span>
+    </div>
+    <div class="meta-row anim-5" style="margin-top:10px;">
+      <span class="meta-chip"><b>Chair</b> sebis · Prof. Dr. Florian Matthes</span>
+      <span class="meta-chip"><b>Partner</b> Deutsche Bank API Program</span>
+      <span class="meta-chip"><b>09 Jun 2026</b> Campus Garching · 5901.02.021</span>
+    </div>
+    <script type="application/json" class="slide-notes">
+    {"title":"API-First Banking in an AI-Agent Economy","script":"We're the Deutsche Bank team in the SITM mini-project. Our question is how Deutsche Bank can turn its decade-old API program into real business models as AI agents reshape who accesses financial data — and whether that holds with or without the FIDA regulation.","notes":["SITM mini-project, Deutsche Bank x TUM (sebis chair)","Topic: API program meets AI agents and MCP","Strategic value independent of FIDA's outcome"]}
+    </script>
+  </div>
+
+  <!-- ════ SLIDE 1 · AGENDA ════ -->
+  <div class="slide" data-slide="1">
+    <p class="slide-tag anim-1">Agenda</p>
+    <h2 class="ruled anim-2">What we'll cover</h2>
+    <div class="ag-grid anim-3">
+      <div class="ag-item"><span class="ag-num">1</span><span class="ag-text">Motivation &amp; problem statement</span></div>
+      <div class="ag-item"><span class="ag-num">2</span><span class="ag-text">Research question</span></div>
+      <div class="ag-item"><span class="ag-num">3</span><span class="ag-text">Methodology &amp; evaluation framework</span></div>
+      <div class="ag-item"><span class="ag-num">4</span><span class="ag-text">Use-case landscape: 13 → 2 focus cases</span></div>
+      <div class="ag-item"><span class="ag-num">5</span><span class="ag-text">Deep dive: UC4 — MCP Banking APIs (B2B2C)</span></div>
+      <div class="ag-item"><span class="ag-num">6</span><span class="ag-text">Deep dive: UC5 — AI Finance in assistants (B2C)</span></div>
+      <div class="ag-item"><span class="ag-num">7</span><span class="ag-text">First results &amp; related work</span></div>
+      <div class="ag-item"><span class="ag-num">8</span><span class="ag-text">Expected results &amp; timeline</span></div>
+    </div>
+    <script type="application/json" class="slide-notes">
+    {"title":"Agenda","script":"Here's the path: we start with the motivation and our research question, explain the method and the lens we evaluate everything through, then show how we narrowed thirteen use cases to two, dive into both, and close with what we've found so far, the expected deliverables, and the timeline.","notes":["Motivation, research question, methodology","Use-case funnel and two deep dives","First results, expected results, timeline"]}
+    </script>
+  </div>
+
+  <!-- ════ SLIDE 2 · MOTIVATION & PROBLEM ════ -->
+  <div class="slide" data-slide="2">
+    <div class="glow-blob glow-purple" style="top:12%;left:62%;"></div>
+    <p class="slide-tag anim-1">Motivation</p>
+    <h2 class="ruled anim-2">Two forces, one strategic gap</h2>
+    <div class="driver-row anim-3" style="margin-top:8px;">
+      <div class="driver reg">
+        <div class="dico">🏛️</div>
+        <div class="dl">Regulatory driver</div>
+        <div class="dt">FIDA / Open Finance</div>
+        <div class="dd">EU consent-based data sharing — delayed, weakened, outcome uncertain.</div>
+      </div>
+      <div class="driver mkt">
+        <div class="dico">🤖</div>
+        <div class="dl">Market driver</div>
+        <div class="dt">Rise of AI agents &amp; MCP</div>
+        <div class="dd">Agents create a <b style="color:#fff;">de-facto</b> need for standardized financial-data interfaces — regardless of FIDA.</div>
+      </div>
+    </div>
+    <div class="opt-row anim-4" style="margin-top:14px;">
+      <div class="opt" style="--c:#1f7a34;"><div class="on">Lead</div><div class="od">Set standards early, win the first ecosystem partnerships, shape the agent interface.</div></div>
+      <div class="opt" style="--c:#0060aa;"><div class="on">Do the minimum</div><div class="od">Comply and protect — expose the least data, sacrifice external optionality.</div></div>
+      <div class="opt" style="--c:#e8590c;"><div class="on">Close off</div><div class="od">Resist opening, optimize internally — risk losing the customer interface.</div></div>
+    </div>
+    <p class="note-line anim-5"><b>The gap:</b> DB has a decade-proven external API program, but how to position it for an AI-agent data economy — and which business models it unlocks — is still open. Doing nothing cedes the customer to uncontrolled screen-scraping.</p>
+    <script type="application/json" class="slide-notes">
+    {"title":"Motivation & Problem Statement","script":"Two forces are converging. On the regulatory side, FIDA would mandate open financial data, but its timeline is genuinely uncertain. On the market side, AI agents already need clean, standardized access to financial data, so the demand exists whether or not the regulation lands. That leaves the bank with three options: lead, do the minimum, or close off. The problem we tackle is that Deutsche Bank is technically ready but strategically undecided.","notes":["FIDA uncertain; AI-agent demand is real regardless","Three strategic options: lead / minimum / close off","DB is technically ready, strategically undecided","Inaction cedes the customer to screen-scraping"]}
+    </script>
+  </div>
+
+  <!-- ════ SLIDE 3 · RESEARCH QUESTION ════ -->
+  <div class="slide" data-slide="3">
+    <p class="slide-tag anim-1">Research Question</p>
+    <h2 class="ruled anim-2">What we set out to answer</h2>
+    <div class="rq-hero anim-3">
+      <div class="rl">Main research question</div>
+      <div class="rm">How can Deutsche Bank leverage its established API program to build sustainable business models in an AI-agent-driven data economy — with or without FIDA?</div>
+    </div>
+    <div class="subq-row anim-4">
+      <div class="subq" style="--c:#0060aa;"><div class="sl">RQ1 · Interfaces</div><div class="st">What role do AI-agent interfaces (APIs &amp; MCP) play in governed financial-data access?</div></div>
+      <div class="subq" style="--c:#1f7a34;"><div class="sl">RQ2 · Value</div><div class="st">Which data &amp; services create defensible value once open data is commoditized?</div></div>
+      <div class="subq" style="--c:#e8590c;"><div class="sl">RQ3 · Positioning</div><div class="st">Should DB lead, do the minimum, or close off — and how do AI agents shift that calculus?</div></div>
+    </div>
+    <script type="application/json" class="slide-notes">
+    {"title":"Research Question","script":"Our guiding question is how Deutsche Bank can leverage its established API program to build sustainable business models in an AI-agent data economy, with or without FIDA. We break it into three: what role agent interfaces like MCP play, which data creates defensible value once everyone has access to similar datasets, and how the bank should position itself strategically.","notes":["Main RQ: API program → business models, with/without FIDA","RQ1: role of APIs & MCP as agent interfaces","RQ2: defensible value when data is commoditized","RQ3: lead, minimum, or close off"]}
+    </script>
+  </div>
+
+  <!-- ════ SLIDE 4 · METHODOLOGY ════ -->
+   <!--
+  <div class="slide" data-slide="4">
+    <p class="slide-tag anim-1">Methodology</p>
+    <h2 class="ruled anim-2">Scientific approach &amp; evaluation lens</h2>
+    <div class="mflow anim-3">
+      <div class="mbox m1"><div class="mico">📚</div><div class="ml">Literature &amp; Market Review</div><div class="ms">Open Finance · APIs · AI services</div></div>
+      <div class="mar">→</div>
+      <div class="mbox m2"><div class="mico">🔬</div><div class="ml">Market &amp; Tech Analysis</div><div class="ms">Test agents · Perplexity · MCP</div></div>
+      <div class="mar">→</div>
+      <div class="mbox m3"><div class="mico">🏛️</div><div class="ml">Competitor &amp; DB State</div><div class="ms">EU banks · DB API program</div></div>
+      <div class="mar">→</div>
+      <div class="mbox m4"><div class="mico">🧭</div><div class="ml">Scenario &amp; Framework</div><div class="ms">FIDA scenarios · canvas</div></div>
+      <div class="mar">→</div>
+      <div class="mbox m5"><div class="mico">✅</div><div class="ml">Validation &amp; Synthesis</div><div class="ms">Recommendation</div></div>
+    </div>
+    <p class="col-label anim-4" style="margin-top:20px;justify-content:center;">Cross-cutting evaluation lens — applied to every use case</p>
+    <div class="lens-grid anim-4" style="margin-top:6px;">
+      <div class="lens-card2 lens-econ"><div class="lens-h"><span class="lico">📈</span>Economic Viability</div><div class="lens-b">Revenue model, monetization, ecosystem engagement, disintermediation risk</div></div>
+      <div class="lens-card2 lens-data"><div class="lens-h"><span class="lico">🔒</span>Data Protection</div><div class="lens-b">Consent, authorization, audit trail, controller responsibility</div></div>
+      <div class="lens-card2 lens-tech"><div class="lens-h"><span class="lico">🛡️</span>Technical Security</div><div class="lens-b">Read vs. act scopes, developer portal, usage limits, agent compatibility</div></div>
+      <div class="lens-card2 lens-reg"><div class="lens-h"><span class="lico">⚖️</span>Regulation</div><div class="lens-b">PSD2 / FIDA, DORA, EU AI Act, GDPR, AML responsibility</div></div>
+    </div>
+    <p class="note-line anim-5">These four lenses double as the axes of our <b>API Portfolio Strategy Canvas</b> — turning qualitative use cases into a comparable, decision-ready assessment.</p>
+    <script type="application/json" class="slide-notes">
+    {"title":"Methodology & Evaluation Framework","script":"Our approach runs in five stages, from literature and market review, through testing real AI tools and analyzing competitors and Deutsche Bank's own API program, to scenario analysis, framework development, and validation. Cutting across all of it is a four-lens evaluation: economic viability, data protection, technical security, and regulation. Those four lenses become the axes of our API Portfolio Strategy Canvas.","notes":["Five-stage approach from review to validation","Hands-on testing of AI agents and MCP","Four evaluation lenses applied to every use case","Lenses become the API Portfolio Strategy Canvas axes"]}
+    </script>
+  </div>
+-->
+  <!-- ════ SLIDE 4 · METHODOLOGY v.2.0 ════ -->
+<div class="slide" data-slide="4">
+  <p class="slide-tag anim-1">Methodology</p>
+  <h2 class="ruled anim-2">Multi-method qualitative design</h2>
+  <p class="subtitle anim-2">Document analysis · comparative case studies · business model validation</p>
+
+  <div class="lens-grid anim-3" style="grid-template-columns: repeat(3,1fr); max-width:1180px; gap:16px; margin-top:20px;">
+    
+    <div class="lens-card2 lens-data">
+      <div class="lens-h"><span class="lico">📚</span>Document &amp; Content Analysis</div>
+      <div class="lens-b">
+        <b>Method:</b> Qualitative content analysis on regulatory, industry and DB-internal documents<br><br>
+        <b>Sources:</b>
+        <ul>
+          <li>EC FIDA proposal &amp; impact assessment</li>
+          <li>EBA / ECB open finance reports</li>
+          <li>Oliver Wyman, McKinsey, BCG reports</li>
+          <li>Berlin Group API standards</li>
+          <li>Tink, Plaid, TrueLayer documentation</li>
+          <li>MCP announcements: Anthropic, OpenAI, Visa, Mastercard</li>
+        </ul>
+        <br><b>Output:</b> Thematic framework for use-case categorisation
+      </div>
+    </div>
+
+    <div class="lens-card2 lens-tech">
+      <div class="lens-h"><span class="lico">🔬</span>Comparative Case Studies</div>
+      <div class="lens-b">
+        <b>Method:</b> Yin (2018) embedded case study design — 4 cases, cross-case pattern matching<br><br>
+        <b>Cases:</b>
+        <ul>
+          <li>Plaid + Perplexity Finance</li>
+          <li>LSEG + OpenAI / Claude</li>
+          <li>BBVA + OpenAI</li>
+          <li>UK Open Banking / OBIE partner model</li>
+        </ul>
+        <br><b>Focus questions:</b>
+        <ul>
+          <li>How are MCP servers adopted and discovered?</li>
+          <li>Which channel architectures work?</li>
+          <li>Where are aggregators needed?</li>
+          <li>How are AI partnerships structured?</li>
+        </ul>
+        <br><b>Output:</b> Pattern-matched findings on channel design
+      </div>
+    </div>
+
+    <div class="lens-card2 lens-reg">
+      <div class="lens-h"><span class="lico">🧭</span>BM Canvas Validation</div>
+      <div class="lens-b">
+        <b>Method:</b> Osterwalder &amp; Pigneur (2010) canvas + Teece (2010) platform BM theory<br><br>
+        <b>Process:</b>
+        <ul>
+          <li>Draft canvas per use case from document analysis + case findings</li>
+          <li>Score against viability matrix:</li>
+          <li>Strategic value to DB</li>
+          <li>Regulatory compliance cost</li>
+          <li>Technical feasibility / FIDA readiness</li>
+          <li>Stakeholder review with DB API program</li>
+        </ul>
+        <br><b>Use-case tiers:</b><br>
+        Open data → Partner ecosystem → Proprietary<br><br>
+        <b>Output:</b> Validated BM canvas per use case + scoring
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+  <!-- ════ SLIDE 4b · CASE STUDIES & PRINCIPLES ════ -->
+<div class="slide" data-slide="4b">
+  <p class="slide-tag anim-1">Methodology · Case Studies</p>
+  <h2 class="ruled anim-2">Four cases — three structural principles</h2>
+
+  <!-- Case cards row -->
+  <div class="case-grid anim-3">
+
+    <div class="case-card cc-a">
+      <div class="cc-badge">Case A</div>
+      <div class="cc-pair">Plaid + Perplexity</div>
+      <div class="cc-mode">API-first · developer-pull</div>
+      <ul class="cc-bullets">
+        <li>Plaid as aggregator for 12k+ institutions</li>
+        <li class="cc-type-chip">Ecosystem</li>
+      </ul>
+    </div>
+
+    <div class="case-card cc-b">
+      <div class="cc-badge">Case B</div>
+      <div class="cc-pair">LSEG + OpenAI</div>
+      <div class="cc-mode">Co-development · middleware orchestration</div>
+      <ul class="cc-bullets">
+        <li>Private MCP over Refinitiv feeds</li>
+        <li class="cc-type-chip">Co-dev</li>
+      </ul>
+    </div>
+
+    <div class="case-card cc-c">
+      <div class="cc-badge">Case C</div>
+      <div class="cc-pair">BBVA + OpenAI</div>
+      <div class="cc-mode">Enterprise licence · internal agent mesh</div>
+      <ul class="cc-bullets">
+        <li>Full data sovereignty</li>
+        <li class="cc-type-chip">Internal</li>
+      </ul>
+    </div>
+
+    <div class="case-card cc-d">
+      <div class="cc-badge">Case D</div>
+      <div class="cc-pair">UK Open Banking</div>
+      <div class="cc-mode">Regulatory mandate · federated consent layer</div>
+      <ul class="cc-bullets">
+        <li>OBIE directory as MCP registry</li>
+        <li class="cc-type-chip">Regulated</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Principle cards row -->
+  <div class="prin-grid anim-4">
+
+    <div class="prin-card">
+      <div class="prin-label">P1</div>
+      <div class="prin-body">
+        <b>Schema standardisation predicts AI output quality</b> — more than AI model choice.
+        All 4 cases confirm this. <em>Data layer is the primary lever.</em>
+      </div>
+    </div>
+
+    <div class="prin-card">
+      <div class="prin-label">P2</div>
+      <div class="prin-body">
+        <b>Governance must live in the channel layer, not the prompt.</b>
+        Field-level access control and consent tokens before data reaches the LLM context window.
+      </div>
+    </div>
+
+    <div class="prin-card">
+      <div class="prin-label">P3</div>
+      <div class="prin-body">
+        <b>Universal deployment sequence:</b> internal pilot → controlled partner access → open ecosystem.
+        Skipping phases creates <em>governance debt.</em>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="application/json" class="slide-notes">
+  {"title":"Case Studies & Structural Principles","script":"We analysed four real deployments that span the full spectrum from open-ecosystem aggregation to closed internal mesh. Case A is Plaid with Perplexity — a developer-pull model covering twelve thousand institutions. Case B is LSEG and OpenAI — a co-development arrangement running a private MCP server over the Refinitiv data feed. Case C is BBVA's enterprise licence with OpenAI — an internal agent mesh with full data sovereignty. Case D is UK Open Banking under a regulatory mandate — where the OBIE directory itself functions as an MCP registry. Three principles emerge across all four. First, schema standardisation is a stronger predictor of output quality than model choice; the data layer is the primary lever. Second, governance has to live in the channel, not the prompt — consent tokens and field-level access control before anything reaches the LLM. Third, every case follows the same deployment sequence: internal pilot first, then controlled partners, then open ecosystem. Skipping a phase creates governance debt.","notes":["4 cases: ecosystem · co-dev · internal · regulated","P1: data schema > model choice — data layer is the lever","P2: governance in the channel layer, not the prompt","P3: internal → partner → ecosystem; skipping = governance debt"]}
+  </script>
+</div>
+
+<style>
+/* ════ CASE STUDY SLIDE ════ */
+.case-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; width: 100%; max-width: 1220px; margin-top: 16px; }
+.case-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; box-shadow: 0 4px 22px rgba(24,27,33,.06); position: relative; overflow: hidden; transition: all .3s cubic-bezier(.22,1,.36,1); display: flex; flex-direction: column; gap: 5px; }
+.case-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+.case-card:hover { transform: translateY(-5px); box-shadow: 0 14px 40px rgba(24,27,33,.11); border-color: var(--border-hover); }
+.cc-a::before { background: linear-gradient(90deg, #022d50, #0060aa); }
+.cc-b::before { background: linear-gradient(90deg, #0a63ab, #3279bd); }
+.cc-c::before { background: linear-gradient(90deg, #166128, #1f7a34); }
+.cc-d::before { background: linear-gradient(90deg, #b8480d, #e8590c); }
+.cc-badge { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text-dim); }
+.cc-a .cc-badge { color: #0060aa; }
+.cc-b .cc-badge { color: #3279bd; }
+.cc-c .cc-badge { color: #1f7a34; }
+.cc-d .cc-badge { color: #e8590c; }
+.cc-pair { font-size: clamp(13.5px,1.3vw,16px); font-weight: 800; color: var(--text); line-height: 1.2; margin-top: 2px; }
+.cc-mode { font-size: clamp(11px,1.05vw,13px); color: var(--text-muted); line-height: 1.35; margin-top: 3px; }
+.cc-bullets { list-style: none; padding: 0; margin: 6px 0 0; display: flex; flex-direction: column; gap: 4px; }
+.cc-bullets li { font-size: clamp(11px,1vw,12.5px); color: var(--text-muted); line-height: 1.35; }
+.cc-bullets li.cc-type-chip { color: #fff; }
+.cc-type-chip { display: inline-block; font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #fff !important; border-radius: 999px; padding: 3px 10px; margin-top: 5px; }
+.cc-a .cc-type-chip { background: linear-gradient(135deg,#022d50,#0060aa); }
+.cc-b .cc-type-chip { background: linear-gradient(135deg,#0a63ab,#3279bd); }
+.cc-c .cc-type-chip { background: linear-gradient(135deg,#166128,#1f7a34); }
+.cc-d .cc-type-chip { background: linear-gradient(135deg,#b8480d,#e8590c); }
+
+.prin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; max-width: 1220px; margin-top: 12px; }
+.prin-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 13px; padding: 13px 17px; box-shadow: 0 3px 18px rgba(24,27,33,.05); display: flex; gap: 13px; align-items: flex-start; transition: all .3s cubic-bezier(.22,1,.36,1); }
+.prin-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(24,27,33,.1); border-color: var(--border-hover); }
+.prin-label { min-width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 800; font-size: 14px; flex-shrink: 0; box-shadow: 0 4px 14px rgba(0,96,170,.22); }
+.prin-body { font-size: clamp(11.5px,1.1vw,13.5px); color: var(--text-muted); line-height: 1.5; }
+.prin-body b { color: var(--text); }
+.prin-body em { color: var(--accent-blue); font-style: normal; font-weight: 600; }
+</style>
+
+
+  <!-- ════ SLIDE 5 · USE-CASE FUNNEL ════ -->
+  <div class="slide" data-slide="5">
+    <p class="slide-tag anim-1">Scope</p>
+    <h2 class="ruled anim-2">From 13 use cases to <span class="gradient-text">2 focus cases</span></h2>
+    <div class="uc-grid anim-3">
+      <div class="uc-chip"><span class="ucn">1</span><span class="uct">AI Loan Advisor</span><div class="ucd">Instant loans at partner checkout</div></div>
+      <div class="uc-chip"><span class="ucn">2</span><span class="uct">SME Credit AI</span><div class="ucd">Loans in SAP / DATEV</div></div>
+      <div class="uc-chip"><span class="ucn">3</span><span class="uct">AI Investment Advisor</span><div class="ucd">Advice on partner platforms</div></div>
+      <div class="uc-chip focus"><span class="ucn">4</span><span class="uct">MCP Banking APIs</span><div class="ucd">Infrastructure for AI agents</div></div>
+      <div class="uc-chip focus"><span class="ucn">5</span><span class="uct">AI Finance in ChatGPT</span><div class="ucd">DB data in AI assistants</div></div>
+      <div class="uc-chip"><span class="ucn">6</span><span class="uct">Fraud &amp; Health Monitoring</span><div class="ucd">AI detects risk &amp; fraud</div></div>
+      <div class="uc-chip"><span class="ucn">7</span><span class="uct">Financial Operating System</span><div class="ucd">Life events → services</div></div>
+      <div class="uc-chip"><span class="ucn">8</span><span class="uct">Smart Cashback Ecosystem</span><div class="ucd">Personalized offers</div></div>
+      <div class="uc-chip"><span class="ucn">9</span><span class="uct">Business Identity APIs</span><div class="ucd">Liquidity verification</div></div>
+      <div class="uc-chip"><span class="ucn">10</span><span class="uct">Real Estate Verification</span><div class="ucd">Checks for property platforms</div></div>
+      <div class="uc-chip"><span class="ucn">11</span><span class="uct">Consent Management API</span><div class="ucd">EUDI Wallet infrastructure</div></div>
+      <div class="uc-chip"><span class="ucn">12</span><span class="uct">Energy &amp; Mobility Bridge</span><div class="ucd">Finance × energy data</div></div>
+    </div>
+    <div class="crit-row anim-4">
+      <span class="crit" style="background:linear-gradient(135deg,#013e6e,#015293);">Strategic relevance to API + AI-agent thesis</span>
+      <span class="crit" style="background:linear-gradient(135deg,#166128,#1f7a34);">Feasible on existing API program</span>
+      <span class="crit" style="background:linear-gradient(135deg,#024e8c,#0060aa);">Covers both B2B2C &amp; B2C</span>
+      <span class="crit" style="background:linear-gradient(135deg,#b8480d,#e8590c);">Regulatory tractability</span>
+    </div>
+    <p class="note-line anim-5"><b>UC4</b> (agent <b>infrastructure</b>, B2B2C) and <b>UC5</b> (agent <b>distribution</b>, B2C) bracket the strategic spectrum and share one governed API/MCP layer — the highest-leverage pair to analyze first.</p>
+    <script type="application/json" class="slide-notes">
+    {"title":"From 13 Use Cases to 2 Focus Cases","script":"We generated thirteen candidate use cases across lending, investing, identity, and more. To choose where to go deep, we used four criteria: strategic fit with the API-and-agent thesis, feasibility on the existing API program, coverage of both business models, and regulatory tractability. Use cases four and five came out on top — they sit at opposite ends of the spectrum but rest on the same governed API layer.","notes":["13 candidate use cases generated","Selection by 4 criteria","UC4 = infrastructure play (B2B2C)","UC5 = distribution play (B2C)","Both share one governed API/MCP layer"]}
+    </script>
+  </div>
+
+  <!-- ════ SLIDE 6 · UC4 — MCP BANKING APIs ════ -->
+  <div class="slide" data-slide="6">
+    <p class="slide-tag anim-1">Deep Dive · Use Case 4</p>
+    <h2 class="anim-2" style="margin-bottom:3px;">MCP Banking APIs <span class="pill b2b2c">B2B2C</span></h2>
+    <p class="subtitle anim-2" style="font-size:clamp(13px,1.3vw,16px);">Deutsche Bank as the banking infrastructure for AI agents</p>
+    <div class="flow anim-3" style="margin-top:12px;">
+      <div class="flow-box b1"><div class="fic">🏦</div><div class="fl">MCP Server</div><div class="fs">DB · open standard</div></div>
+      <div class="flow-ar">→</div>
+      <div class="flow-box b2"><div class="fic">🧩</div><div class="fl">Business Partner</div><div class="fs">SAP · rental portal · HR platform</div></div>
+      <div class="flow-ar">→</div>
+      <div class="flow-box b3"><div class="fic">👤</div><div class="fl">Customers</div><div class="fs">authorize the AI agent</div></div>
+    </div>
+    <div class="lens-grid anim-4">
+      <div class="lens-card2 lens-econ"><div class="lens-h"><span class="lico">📈</span>Economic Viability</div><div class="lens-b"><ul><li>Infrastructure layer for AI agents across industries</li><li>Monetization via transaction / usage fees</li><li>Reach into partner ecosystems</li></ul></div></div>
+      <div class="lens-card2 lens-data"><div class="lens-h"><span class="lico">🔒</span>Data Protection</div><div class="lens-b"><ul><li>Customer authorizes each action (read vs. payment)</li><li>Complete audit log of agent actions</li><li>DPA per partner; revocable anytime</li></ul></div></div>
+      <div class="lens-card2 lens-tech"><div class="lens-h"><span class="lico">🛡️</span>Technical Security</div><div class="lens-b"><ul><li><b>Read:</b> balance, transactions, FX</li><li><b>Act:</b> SEPA payments, account-scoped</li><li>Developer portal, strict usage limits</li></ul></div></div>
+      <div class="lens-card2 lens-reg"><div class="lens-h"><span class="lico">⚖️</span>Regulation</div><div class="lens-b"><ul><li>PSD2 / FIDA — regulated payment provider, SCA</li><li>DORA — critical-infra availability</li><li>EU AI Act · GDPR · AML (shared)</li></ul></div></div>
+    </div>
+    <div class="fit-row anim-5">
+      <div class="fit ex"><b>Examples</b>Property platform books rent for tenants · ERP (SAP/DATEV) settles invoices · HR platform opens salary accounts for new hires</div>
+      <div class="fit op"><b>Opportunity</b>More partners → more transaction margin</div>
+      <div class="fit ri"><b>Risk</b>Critical-infra status → compliance load</div>
+    </div>
+    <script type="application/json" class="slide-notes">
+    {"title":"UC4 — MCP Banking APIs (B2B2C)","script":"In the first use case, Deutsche Bank exposes its capabilities as an MCP server — an open standard for AI agents. Business partners like SAP, rental portals, or HR platforms integrate it, and their customers authorize the agent. Economically, the bank becomes infrastructure and earns on transactions. Every action is consent-gated and fully audited, agents can read balances and make SEPA payments within strict scopes, and the bank operates as a regulated payment provider under PSD2 and DORA. The risk is that becoming critical infrastructure raises the compliance burden.","notes":["DB exposes an MCP server for AI agents","Partners integrate; customers authorize each action","Monetized via transaction and usage fees","Consent-gated, fully audited, scoped read/act","Regulated under PSD2/FIDA, DORA, EU AI Act","Risk: critical-infrastructure compliance load"]}
+    </script>
+  </div>
+
+  <!-- ════ SLIDE 7 · UC5 — AI FINANCE IN ASSISTANTS ════ -->
+  <div class="slide" data-slide="7">
+    <p class="slide-tag anim-1">Deep Dive · Use Case 5</p>
+    <h2 class="anim-2" style="margin-bottom:3px;">AI Finance in AI Assistants <span class="pill b2c">B2C</span></h2>
+    <p class="subtitle anim-2" style="font-size:clamp(13px,1.3vw,16px);">Deutsche Bank data integrated into ChatGPT, Claude &amp; Perplexity</p>
+    <div class="flow anim-3" style="margin-top:12px;">
+      <div class="flow-box b1"><div class="fic">👤</div><div class="fl">User</div><div class="fs">ChatGPT · Claude · Perplexity</div></div>
+      <div class="flow-ar">→</div>
+      <div class="flow-box b2"><div class="fic">🤖</div><div class="fl">AI Assistant</div><div class="fs">via API / MCP, analyzes</div></div>
+      <div class="flow-ar">→</div>
+      <div class="flow-box b3"><div class="fic">🏦</div><div class="fl">Bank API Layer</div><div class="fs">account data · FX insights</div></div>
+      <div class="flow-ar">→</div>
+      <div class="flow-box b4"><div class="fic">⚡</div><div class="fl">Sensitive Actions</div><div class="fs">payments · investments — in DB env</div></div>
+    </div>
+    <div class="lens-grid anim-4">
+      <div class="lens-card2 lens-econ"><div class="lens-h"><span class="lico">📈</span>Economic Viability</div><div class="lens-b"><ul><li>New AI-native distribution channel</li><li>API monetization &amp; premium data</li><li><b>Risk:</b> disintermediation of the customer interface</li></ul></div></div>
+      <div class="lens-card2 lens-data"><div class="lens-h"><span class="lico">🔒</span>Data Protection</div><div class="lens-b"><ul><li>Customer authorizes each action</li><li>Regulated actions stay inside the DB-controlled environment</li></ul></div></div>
+      <div class="lens-card2 lens-tech"><div class="lens-h"><span class="lico">🛡️</span>Technical Security</div><div class="lens-b"><ul><li><b>Read:</b> balance, transactions</li><li>Compatible with ChatGPT, Claude, Gemini</li><li>Secure redirect to the DB app for actions</li></ul></div></div>
+      <div class="lens-card2 lens-reg"><div class="lens-h"><span class="lico">⚖️</span>Regulation</div><div class="lens-b"><ul><li>PSD2 / FIDA — regulated data access</li><li>EU AI Act · GDPR — transparency</li><li>AML — shared responsibility</li></ul></div></div>
+    </div>
+    <div class="fit-row anim-5">
+      <div class="fit"><b>Perplexity / OpenAI ↔ Plaid</b>Bank data piped into assistants</div>
+      <div class="fit"><b>LSEG ↔ OpenAI</b>Market data inside ChatGPT</div>
+      <div class="fit"><b>PayPal ↔ OpenAI</b>Agentic commerce</div>
+      <div class="fit ri"><b>Strategic fit</b>Data access becomes the new banking interface — control it or lose it</div>
+    </div>
+    <script type="application/json" class="slide-notes">
+    {"title":"UC5 — AI Finance in AI Assistants (B2C)","script":"The second use case is consumer-facing: a customer asks ChatGPT, Claude, or Perplexity about their finances, the assistant calls Deutsche Bank's API layer for account data and FX insights, and any sensitive action — a payment or investment — happens back inside the bank's own environment via a secure redirect. This opens a powerful new distribution channel, but the real risk is disintermediation: if the assistant becomes the interface, the bank could lose the direct customer relationship. The market is already moving — Plaid with Perplexity, LSEG and PayPal with OpenAI.","notes":["Consumer asks an AI assistant about finances","Assistant reads DB API data; actions stay in DB env","New AI-native distribution channel","Key risk: disintermediation of the customer interface","Real precedents: Plaid, LSEG, PayPal with AI assistants"]}
+    </script>
+  </div>
+
+  <!-- ════ SLIDE 8 · COMPARISON ════ -->
+  <div class="slide" data-slide="8">
+    <p class="slide-tag anim-1">Synthesis</p>
+    <h2 class="ruled anim-2">UC4 vs. UC5 — two ends of one strategy</h2>
+    <div class="ctable anim-3">
+      <table>
+        <thead><tr><th style="width:24%;">Dimension</th><th class="h4" style="width:38%;">UC4 · MCP Banking APIs (B2B2C)</th><th class="h5" style="width:38%;">UC5 · AI Finance in Assistants (B2C)</th></tr></thead>
+        <tbody>
+          <tr><td class="lh">Strategic role</td><td>Infrastructure / platform play</td><td>Distribution / reach play</td></tr>
+          <tr><td class="lh">Customer relationship</td><td>Retained &amp; deepened via partners</td><td>At risk of disintermediation</td></tr>
+          <tr><td class="lh">Monetization</td><td>Transaction &amp; usage fees</td><td>Premium data &amp; channel access</td></tr>
+          <tr><td class="lh">Primary risk</td><td>Critical-infrastructure compliance load</td><td>Losing the direct customer interface</td></tr>
+          <tr><td class="lh">Shared foundation</td><td colspan="2" class="shared">One governed, auditable API / MCP layer — consent · scopes · audit trail</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="rec-box anim-4">
+      <div class="rl">Emerging recommendation direction</div>
+      <div class="rtt">Lead with <em>controlled openness</em> — opening is happening regardless of FIDA; governed API/MCP access beats uncontrolled screen-scraping and keeps DB in the value chain.</div>
+    </div>
+    <script type="application/json" class="slide-notes">
+    {"title":"UC4 vs. UC5","script":"Side by side, the two cases are opposite ends of one strategy. UC4 is an infrastructure play that deepens the customer relationship through partners; UC5 is a reach play that risks disintermediation. They monetize differently and carry different risks, but both rest on exactly the same foundation: one governed, auditable API and MCP layer. Our emerging recommendation is to lead with controlled openness — since opening is happening anyway, governed access is far better than uncontrolled scraping.","notes":["UC4 infrastructure vs UC5 distribution","Different monetization and risk profiles","Same foundation: governed API/MCP layer","Recommendation: lead with controlled openness"]}
+    </script>
+  </div>
+
+  <!-- ════ SLIDE 9 · FIRST RESULTS & RELATED WORK ════ -->
+  <div class="slide" data-slide="9">
+    <p class="slide-tag anim-1">First Results</p>
+    <h2 class="ruled anim-2">Findings so far &amp; related work</h2>
+    <div class="col2 anim-3">
+      <div>
+        <div class="col-label">Preliminary findings</div>
+        <div class="fcard" style="--c:#0060aa;"><div class="ft">DB is already beyond PSD2</div><div class="fb">Premium APIs for German SMEs without a BaFin licence; wealth-management &amp; SME interfaces live. The open question is strategic, not technical.</div></div>
+        <div class="fcard" style="--c:#1f7a34;"><div class="ft">Revenue is mostly indirect</div><div class="fb">Check24 → more account openings; investment-ordering APIs → direct revenue; distribution partners speed acquisition. Direct API prices are minimal.</div></div>
+        <div class="fcard" style="--c:#e8590c;"><div class="ft">Data distribution is the bottleneck</div><div class="fb">Mainframe batch vs. real-time online-banking data; only partial unified data model; a central data layer is still being built.</div></div>
+      </div>
+      <div>
+        <div class="col-label alt">Related work &amp; sources</div>
+        <div class="fcard" style="--c:#6a37c0;"><div class="ft">Open Finance literature &amp; whitepapers</div><div class="fb">Industry Open Finance whitepapers (Overview, AI, FinTech, Infrastructure, Insurance, Strategy); academic Open Banking research on APIs &amp; data ecosystems.</div></div>
+        <div class="fcard" style="--c:#6a37c0;"><div class="ft">Market evidence of agent interfaces</div><div class="fb">Plaid × Perplexity/OpenAI; LSEG × OpenAI; PayPal agentic commerce — third parties are already becoming the financial interface.</div></div>
+        <div class="fcard" style="--c:#6a37c0;"><div class="ft">Competitor scan (in progress)</div><div class="fb">EU front-runners — Dutch banks, Revolut — benchmarked on API offering, strategy &amp; realized use cases.</div></div>
+      </div>
+    </div>
+    <script type="application/json" class="slide-notes">
+    {"title":"First Results & Related Work","script":"Three findings so far. First, Deutsche Bank is already well beyond PSD2 — it has premium APIs and live interfaces, so the bottleneck is strategy, not technology. Second, the revenue model is mostly indirect today, through account openings and distribution partners rather than direct API pricing. Third, the real technical challenge is data distribution — moving from mainframe batch data toward a unified, real-time, API-ready layer. On related work, we draw on the Open Finance whitepapers, academic literature, clear market precedents, and an in-progress competitor scan of EU front-runners.","notes":["DB already beyond PSD2 — strategy is the gap","Revenue is mostly indirect today","Data distribution is the core technical bottleneck","Sources: whitepapers, academic literature, market precedents","Competitor scan: Dutch banks, Revolut"]}
+    </script>
+  </div>
+
+  <!-- ════ SLIDE 10 · BUSINESS MODEL SCENARIO 1 ════ -->
+<div class="slide" data-slide="10">
+  <p class="slide-tag anim-1">Business Model · Scenario 1</p>
+  <h2 class="ruled anim-2">Open Finance Marketplace for AI Assistants</h2>
+
+  <div class="bmc-wrap anim-3">
+    <div class="bmc-card kp active" data-bmc="Key Partners">
+      <b>Key Partners</b>
+      <span>OpenAI, Google, Anthropic, Perplexity, Allianz, AXA, DWS, Interhyp, Visa</span>
+    </div>
+
+    <div class="bmc-card ka" data-bmc="Key Activities">
+      <b>Key Activities</b>
+      <span>API provision, consent management, partner onboarding, compliance</span>
+    </div>
+
+    <div class="bmc-card vp" data-bmc="Value Proposition">
+      <b>Value Proposition</b>
+      <span>DB as regulated access layer between AI assistants, customers and financial providers</span>
+    </div>
+
+    <div class="bmc-card cr" data-bmc="Customer Relationships">
+      <b>Customer Relationships</b>
+      <span>API partnerships, revenue-sharing, developer support, ecosystem governance</span>
+    </div>
+
+    <div class="bmc-card cs" data-bmc="Customer Segments">
+      <b>Customer Segments</b>
+      <span>AI platforms, financial providers, fintechs, retail customers</span>
+    </div>
+
+    <div class="bmc-card kr" data-bmc="Key Resources">
+      <b>Key Resources</b>
+      <span>dbAPI, banking licence, customer trust, financial data, partner network</span>
+    </div>
+
+    <div class="bmc-card ch" data-bmc="Channels">
+      <b>Channels</b>
+      <span>ChatGPT, Claude, Gemini, DB Developer Portal, partner platforms</span>
+    </div>
+
+    <div class="bmc-card cost" data-bmc="Cost Structure">
+      <b>Cost Structure</b>
+      <span>API infrastructure, cybersecurity, legal, compliance, partner management</span>
+    </div>
+
+    <div class="bmc-card rev" data-bmc="Revenue Streams">
+      <b>Revenue Streams</b>
+      <span>API fees, referral commissions, revenue share, premium APIs, white-label services</span>
+    </div>
+  </div>
+
+  <div class="bmc-panel anim-4" id="bmcPanel">
+    <b>Step 1 · Key Partners</b>
+    <p>DB connects AI assistants with financial providers such as Allianz, DWS and Interhyp through one trusted Open Finance platform.</p>
+  </div>
+
+  <p class="note-line anim-5">
+    Source: Osterwalder (2004), Business Model Canvas framework.
+  </p>
+</div>
+
+  <!-- ════ SLIDE 11 · EXPECTED RESULTS ════ -->
+  <div class="slide" data-slide="10">
+    <p class="slide-tag anim-1">Expected Results</p>
+    <h2 class="ruled anim-2">Planned deliverables</h2>
+    <div class="deliv-list anim-3">
+      <div class="deliv"><div class="dn">1</div><div class="dx"><b>Strategic decision framework</b> for banks navigating the data economy independent of the regulatory outcome.</div></div>
+      <div class="deliv"><div class="dn">2</div><div class="dx"><b>Scenario analysis</b> — implications for innovation, cost, governance, data-product strategy &amp; partnerships.</div></div>
+      <div class="deliv"><div class="dn">3</div><div class="dx"><b>API Portfolio Strategy Canvas</b> — which data &amp; services to expose internally, externally, or both.</div></div>
+      <div class="deliv"><div class="dn">4</div><div class="dx"><b>Target interface architecture</b> — governed, auditable data access fit for AI agents and future regulation.</div></div>
+      <div class="deliv last"><div class="dn">5</div><div class="dx"><b>Executive brief</b> with recommendations for Deutsche Bank's positioning through 2030.</div></div>
+    </div>
+    <script type="application/json" class="slide-notes">
+    {"title":"Expected Final Results","script":"By the end we'll deliver five things: a strategic decision framework that works whatever FIDA does; a scenario analysis covering cost, governance, and partnerships; the API Portfolio Strategy Canvas that maps what to expose and where; a target interface architecture for governed, auditable access; and an executive brief recommending Deutsche Bank's positioning through 2030.","notes":["Strategic decision framework","Scenario analysis","API Portfolio Strategy Canvas","Target interface architecture","Executive brief through 2030"]}
+    </script>
+  </div>
+
+  <!-- ════ SLIDE 12 · TIMELINE ════ -->
+  <div class="slide" data-slide="11">
+    <p class="slide-tag anim-1">Timeline</p>
+    <h2 class="ruled anim-2">Project roadmap</h2>
+    <div class="roadmap anim-3">
+      <div class="rm-phase" style="--c:#0060aa;"><div class="rm-no">Done</div><div class="rm-date">24 Apr</div><div class="rm-name">Kick-off with Deutsche Bank</div><div class="rm-sum">Scope, materials, six Open Finance whitepapers received.</div></div>
+      <div class="rm-conn">→</div>
+      <div class="rm-phase" style="--c:#0060aa;"><div class="rm-no">Done</div><div class="rm-date">May</div><div class="rm-name">Review &amp; ideation</div><div class="rm-sum">Literature &amp; market review; 13 use cases generated and shortlisted.</div></div>
+      <div class="rm-conn">→</div>
+      <div class="rm-phase now" style="--c:#e8590c;"><div class="rm-no">We are here</div><div class="rm-date">09 Jun</div><div class="rm-name">Intermediate presentation</div><div class="rm-sum">Problem, RQ, method, focus cases &amp; direction.</div></div>
+      <div class="rm-conn">→</div>
+      <div class="rm-phase" style="--c:#6a37c0;"><div class="rm-no">Next</div><div class="rm-date">Jun–Jul</div><div class="rm-name">Deep analysis &amp; framework</div><div class="rm-sum">UC4/UC5 analysis, canvas &amp; scenario development.</div></div>
+      <div class="rm-conn">→</div>
+      <div class="rm-phase" style="--c:#1f7a34;"><div class="rm-no">Final</div><div class="rm-date">Jul / Aug</div><div class="rm-name">Validation &amp; delivery</div><div class="rm-sum">Final presentation &amp; paper submission.</div></div>
+    </div>
+    <p class="note-line anim-4">Final milestone dates to be confirmed with the chair — fully editable in this deck.</p>
+    <script type="application/json" class="slide-notes">
+    {"title":"Timeline","script":"We kicked off with Deutsche Bank in late April and spent May on the literature and market review and generating the use cases. We're at the intermediate presentation now. From June into July we go deep on the two focus cases and build the framework and canvas, and we close in July or August with validation, the final presentation, and the paper.","notes":["Apr: kick-off & materials","May: review & 13 use cases","9 Jun: intermediate presentation (now)","Jun–Jul: deep analysis & framework","Jul/Aug: validation & final delivery"]}
+    </script>
+  </div>
+
+  <!-- ════ SLIDE 13 · CLOSING / Q&A ════ -->
+  <div class="slide" data-slide="12">
+    <div class="glow-blob glow-blue" style="top:-100px;right:-70px;"></div>
+    <div class="glow-blob glow-green" style="bottom:-120px;left:-80px;"></div>
+    <p class="slide-tag anim-1">Thank you</p>
+    <h1 class="anim-2" style="font-size:clamp(34px,4.4vw,54px);">Questions &amp; <span class="gradient-text">Discussion</span></h1>
+    <p class="subtitle anim-3">How can Deutsche Bank turn its API program into sustainable business models in an AI-agent economy — with or without FIDA?</p>
+    <div class="metric-strip anim-4">
+      <span class="metric-pill"><span class="d" style="background:var(--accent-green);"></span>2 focus use cases</span>
+      <span class="metric-pill"><span class="d" style="background:var(--accent-blue);"></span>4-lens evaluation framework</span>
+      <span class="metric-pill"><span class="d" style="background:var(--accent-orange);"></span>5 planned deliverables</span>
+      <span class="metric-pill"><span class="d" style="background:var(--accent-purple);"></span>Positioning through 2030</span>
+    </div>
+    <p class="note-line anim-5" style="margin-top:24px;">Deutsche Bank × TUM · sebis · SITM Mini-Project · Summer 2026</p>
+    <script type="application/json" class="slide-notes">
+    {"title":"Questions & Discussion","script":"To wrap up: our question is how Deutsche Bank turns its API program into sustainable business models in an AI-agent economy, with or without FIDA. We've narrowed to two focus use cases, built a four-lens evaluation framework, and are heading toward five concrete deliverables and a 2030 positioning recommendation. We'd love your questions and feedback.","notes":["Recap of the central research question","Two focus use cases, four-lens framework","Five deliverables, positioning through 2030","Open for questions and feedback"]}
+    </script>
+  </div>
+
+<!-- ════ SLIDE 14 · REFERENCES  ════ -->
+<div class="slide">
+  <div class="slide-tag anim-1">Sources</div>
+  <h2 class="ruled anim-2">References</h2>
+
+  <div class="anim-3" style="
+    width:100%;
+    max-width:1120px;
+    margin-top:18px;
+    background:white;
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:22px 28px;
+    font-size:10.5px;
+    line-height:1.45;
+    color:var(--text-muted);
+    column-count:2;
+    column-gap:34px;
+    text-align:left;
+  ">
+
+    <p>Anthropic. (2024). <i>Finance agents</i>. https://www.anthropic.com/news/finance-agents</p>
+    <p>Anthropic. (2024). <i>Model context protocol (MCP)</i>.</p>
+    <p>Awrey, D., &amp; Macey, J. (2025). <i>The promise and perils of open finance</i> (SSRN Working Paper No. 4045640). https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4045640</p>
+    <p>Awrey, D., &amp; Macey, J. (2025). Open finance. <i>Yale Law Journal</i>. Forthcoming.</p>
+    <p>Berlin Group. (n.d.). <i>NextGenPSD2 API standard</i>.</p>
+    <p>bunq. (2024). <i>bunq launches smarter, more powerful upgrade to GenAI financial assistant</i>. https://press.bunq.com/258930-bunq-launches-smarter-more-powerful-upgrade-to-genai-financial-assistant/</p>
+    <p>Eisenhardt, K. M. (1989). Building theories from case study research. <i>Academy of Management Review, 14</i>(4), 532–550.</p>
+    <p>Enholm, I. M., Papagiannidis, E., Mikalef, P., &amp; Krogstie, J. (2022). Artificial intelligence and business value: A literature review. <i>Information Systems Frontiers, 24</i>(5), 1709–1734.</p>
+    <p>European Commission. (2023). <i>Proposal for a regulation on financial data access (FIDA)</i>.</p>
+    <p>European Commission. (2023). <i>Impact assessment report on financial data access</i> (SWD 2023/224).</p>
+    <p>Fiscal.ai. (n.d.). <i>Perplexity × Fiscal: The future of financial research</i>. https://fiscal.ai/blog/perplexity-fiscal/</p>
+    <p>Goodfellow, I., Bengio, Y., &amp; Courville, A. (2016). <i>Deep learning</i>. MIT Press.</p>
+    <p>Mastercard. (2025). <i>Agent Pay: Agentic payment rails</i> [Press release].</p>
+    <p>Mayring, P. (2015). Qualitative content analysis: Theoretical background and procedures. In A. Bikner-Ahsbahs, C. Knipping, &amp; N. Presmeg (Eds.), <i>Approaches to qualitative research in mathematics education</i>. Springer.</p>
+    <p>Oliver Wyman. (2024). <i>Strategic implications of FIDA</i>.</p>
+    <p>Open Banking Implementation Entity. (n.d.). <i>Open banking standards and framework</i>.</p>
+    <p>Osterwalder, A. (2004). <i>The business model ontology: A proposition in a design science approach</i> [Doctoral dissertation, Université de Lausanne]. Université de Lausanne.</p>
+    <p>Osterwalder, A., &amp; Pigneur, Y. (2010). <i>Business model generation</i>. Wiley.</p>
+    <p>Plaid. (n.d.). <i>Transactions API reference</i>. Plaid Documentation. Retrieved May 6, 2026, from https://plaid.com/docs/api/products/transactions/</p>
+    <p>Plaid. (n.d.). <i>Open finance and AI platform integrations</i>.</p>
+    <p>Statista. (n.d.). <i>Open banking</i>. Retrieved May 6, 2026, from https://www.statista.com/topics/11010/open-banking/</p>
+    <p>Teece, D. J. (2010). Business models, business strategy and innovation. <i>Long Range Planning, 43</i>(2–3), 172–194.</p>
+    <p>Tink. (n.d.). <i>Developer documentation and partnership model</i>.</p>
+    <p>Truchet, M. (2023, April). <i>Open finance: Opportunities, challenges and policy implications</i>. Eurofi. https://www.eurofi.net/wp-content/uploads/2023/06/eurofi_open-finance-opportunities-challenges-and-policy-implications_stockholm_april-2023.pdf</p>
+    <p>Truchet, G. (2023). <i>Strategic options in open finance: Data orchestration, interface ownership, and embedded distribution</i> [Working paper].</p>
+    <p>Visa. (2025). <i>Intelligent commerce initiative</i> [Press release].</p>
+    <p>Yin, R. K. (2018). <i>Case study research and applications: Design and methods</i> (6th ed.). Sage Publications.</p>
+    <p>Zott, C., Amit, R., &amp; Massa, L. (2011). The business model: Recent developments and future research. <i>Journal of Management, 37</i>(4), 1019–1042. https://doi.org/10.1177/0149206311406265</p>
+
+  </div>
+</div>
+
+<script>
+/* ═══ RESTORE SAVED EDITS (before runtime reads slides) ═══ */
+var EDIT_KEY = 'sitm-db-deck-v3::' + (location.pathname.split('/').pop() || 'deck');
+(function restoreEdits(){
+  try {
+    var saved = localStorage.getItem(EDIT_KEY);
+    if (saved) {
+      var deck = document.getElementById('deck');
+      deck.innerHTML = saved;
+      var ss = deck.querySelectorAll('.slide');
+      ss.forEach(function(s,i){ s.classList.toggle('active', i===0); });
+    }
+  } catch(e){}
+})();
+</script>
+
+<script>
+/* ═══ SLIDES RUNTIME (html-slides — verbatim + edit-mode guards) ═══ */
+const pc = document.getElementById('particles');
+for (let i = 0; i < 26; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  p.style.left = Math.random()*100+'%';
+  p.style.animationDuration = (9+Math.random()*14)+'s';
+  p.style.animationDelay = Math.random()*10+'s';
+  p.style.width = p.style.height = (1+Math.random()*2)+'px';
+  pc.appendChild(p);
+}
+
+const slides = document.querySelectorAll('.slide');
+const progress = document.getElementById('progress');
+const counter = document.getElementById('counter');
+const slideNav = document.getElementById('slideNav');
+let current = 0;
+const total = slides.length;
+
+slides.forEach((_, i) => {
+  const dot = document.createElement('div');
+  dot.className = 'slide-nav-dot' + (i===0?' active':'');
+  dot.addEventListener('click', () => goTo(i));
+  slideNav.appendChild(dot);
+});
+
+function updateUI() {
+  progress.style.width = ((current+1)/total*100)+'%';
+  counter.textContent = `${current+1} / ${total}`;
+  document.querySelectorAll('.slide-nav-dot').forEach((d,i) => d.classList.toggle('active', i===current));
+}
+function goTo(index) {
+  if (index<0 || index>=total || index===current) return;
+  current = index;
+  slides.forEach((s,i) => s.classList.toggle('active', i===current));
+  updateUI();
+  showSpeakerNotes(current);
+}
+function next() { goTo(current+1); }
+function prev() { goTo(current-1); }
+
+document.addEventListener('keydown', (e) => {
+  if (document.body.classList.contains('editing')) return;
+  if (e.key==='ArrowRight'||e.key===' '||e.key==='PageDown') { e.preventDefault(); next(); }
+  if (e.key==='ArrowLeft'||e.key==='PageUp') { e.preventDefault(); prev(); }
+  if (e.key==='Home') { e.preventDefault(); goTo(0); }
+  if (e.key==='End') { e.preventDefault(); goTo(total-1); }
+});
+let touchStart = 0;
+document.addEventListener('touchstart', (e) => { touchStart=e.touches[0].clientX; });
+document.addEventListener('touchend', (e) => {
+  if (document.body.classList.contains('editing')) return;
+  const diff = touchStart - e.changedTouches[0].clientX;
+  if (Math.abs(diff)>50) { diff>0 ? next() : prev(); }
+});
+let wheelCD = false;
+document.addEventListener('wheel', (e) => {
+  if (document.body.classList.contains('editing')) return;
+  if (wheelCD) return; wheelCD = true;
+  setTimeout(() => wheelCD=false, 600);
+  if (e.deltaY>0||e.deltaX>0) next(); else prev();
+}, {passive:true});
+
+updateUI();
+
+function showSpeakerNotes(index) {
+  const slide = slides[index];
+  const notesEl = slide.querySelector('script.slide-notes');
+  console.clear();
+  if (notesEl) {
+    try {
+      const n = JSON.parse(notesEl.textContent);
+      const title = n.title || 'Slide ' + (index + 1);
+      const script = n.script || '';
+      const notes = n.notes || [];
+      var parts = ['\n%c📋 Slide ' + (index+1) + '/' + total + ': ' + title + '\n'];
+      var styles = ['font-size:16px;font-weight:bold;color:#0060aa;'];
+      if (script) { parts.push('\n%c' + script + '\n'); styles.push('font-size:14px;color:#d97706;line-height:1.6;'); }
+      if (notes.length) {
+        notes.forEach(function(note){ parts.push('\n  %c•%c ' + note); styles.push('color:#16a34a;font-size:14px;'); styles.push('color:#16a34a;font-size:14px;'); });
+        parts.push('\n');
+      }
+      console.log.apply(console, [parts.join('')].concat(styles));
+    } catch(e) {}
+  }
+}
+setTimeout(function() { showSpeakerNotes(0); }, 500);
+</script>
+
+<script>
+/* ═══ INLINE EDITOR — press E, auto-save to localStorage, export ═══ */
+var deckEl = document.getElementById('deck');
+var EDIT_SEL = 'h1,h2,.subtitle,.slide-tag,.ag-text,.driver .dt,.driver .dd,.driver .dl,.opt .on,.opt .od,.rq-hero .rm,.rq-hero .rl,.subq .sl,.subq .st,.lens-b,.flow-box .fl,.flow-box .fs,.mbox .ml,.mbox .ms,.fit,.uc-chip .uct,.uc-chip .ucd,.crit,.note-line,.deliv .dx,.ctable td,.ctable th,.rec-box .rtt,.rec-box .rl,.col-label,.fcard .ft,.fcard .fb,.rm-no,.rm-date,.rm-name,.rm-sum,.metric-pill,.meta-chip';
+
+var editor = {
+  isActive: false,
+  toggle: function(){
+    this.isActive = !this.isActive;
+    document.body.classList.toggle('editing', this.isActive);
+    var t = document.getElementById('editToggle');
+    t.classList.toggle('active', this.isActive);
+    deckEl.querySelectorAll(EDIT_SEL).forEach(function(el){
+      if (el.closest('script')) return;
+      if (this.isActive) el.setAttribute('contenteditable','true');
+      else el.removeAttribute('contenteditable');
+    }, this);
+    if (this.isActive) { t.classList.add('show'); setStatus('Edit mode: click any text'); }
+  }
+};
+function setStatus(t){ var s=document.getElementById('editStatus'); if(s) s.textContent=t; }
+
+var saveTimer=null;
+deckEl.addEventListener('input', function(){
+  if(!editor.isActive) return;
+  clearTimeout(saveTimer);
+  setStatus('Saving…');
+  saveTimer=setTimeout(function(){
+    try { localStorage.setItem(EDIT_KEY, deckEl.innerHTML); setStatus('Saved ✓'); }
+    catch(e){ setStatus('Save failed'); }
+  }, 500);
+});
+
+function exportHTML(){
+  var clone = document.documentElement.cloneNode(true);
+  clone.querySelectorAll('[contenteditable]').forEach(function(el){ el.removeAttribute('contenteditable'); });
+  var b = clone.querySelector('body'); if(b) b.classList.remove('editing');
+  var t = clone.querySelector('#editToggle'); if(t) t.classList.remove('active','show');
+  clone.querySelectorAll('.slide').forEach(function(s,i){ s.classList.toggle('active', i===0); });
+  var html = '<!DOCTYPE html>\n' + clone.outerHTML;
+  var blob = new Blob([html], {type:'text/html'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'intermediate_presentation_v2-edited.html';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setStatus('Exported ✓');
+}
+
+var hotzone = document.querySelector('.edit-hotzone');
+var editToggle = document.getElementById('editToggle');
+var hideTimeout = null;
+hotzone.addEventListener('mouseenter', function(){ clearTimeout(hideTimeout); editToggle.classList.add('show'); });
+hotzone.addEventListener('mouseleave', function(){ hideTimeout=setTimeout(function(){ if(!editor.isActive) editToggle.classList.remove('show'); },400); });
+editToggle.addEventListener('mouseenter', function(){ clearTimeout(hideTimeout); });
+editToggle.addEventListener('mouseleave', function(){ hideTimeout=setTimeout(function(){ if(!editor.isActive) editToggle.classList.remove('show'); },400); });
+editToggle.addEventListener('click', function(){ editor.toggle(); });
+hotzone.addEventListener('click', function(){ editor.toggle(); });
+document.getElementById('editDone').addEventListener('click', function(){ if(editor.isActive) editor.toggle(); });
+document.getElementById('editExport').addEventListener('click', exportHTML);
+document.getElementById('editReset').addEventListener('click', function(){
+  if(confirm('Discard all saved edits and restore the original deck?')){ localStorage.removeItem(EDIT_KEY); location.reload(); }
+});
+document.addEventListener('keydown', function(e){
+  if (e.key==='Escape' && editor.isActive) { editor.toggle(); return; }
+  if ((e.key==='e'||e.key==='E') && !editor.isActive) {
+    var a = document.activeElement;
+    if (a && (a.isContentEditable || a.tagName==='INPUT' || a.tagName==='TEXTAREA')) return;
+    editor.toggle();
+  }
+});
+</script>
+<script>
+const bmcTexts = {
+  "Key Partners": "DB connects AI assistants with financial providers such as Allianz, DWS and Interhyp through one trusted Open Finance platform.",
+  "Key Activities": "DB operates APIs, manages consent, routes requests, verifies identity and ensures compliance.",
+  "Value Proposition": "AI platforms get regulated financial access; customers get seamless recommendations; providers get qualified leads.",
+  "Customer Relationships": "DB manages long-term API partnerships, revenue-sharing models and developer support.",
+  "Customer Segments": "The platform serves AI companies, financial providers, fintechs and retail customers using AI assistants.",
+  "Key Resources": "DB uses its API platform, licence, brand trust, customer data and partner network.",
+  "Channels": "The service appears inside ChatGPT, Claude, Gemini, Perplexity and partner platforms.",
+  "Cost Structure": "Main costs are API infrastructure, cybersecurity, compliance, legal work and partner management.",
+  "Revenue Streams": "DB earns API fees, referral commissions, revenue share, premium API subscriptions and white-label service fees."
+};
+
+document.querySelectorAll(".bmc-card").forEach((card, i) => {
+  card.addEventListener("click", () => {
+    document.querySelectorAll(".bmc-card").forEach(c => c.classList.remove("active"));
+    card.classList.add("active");
+    const title = card.dataset.bmc;
+    document.getElementById("bmcPanel").innerHTML =
+      `<b>Step ${i + 1} · ${title}</b><p>${bmcTexts[title]}</p>`;
+  });
+});
+</script>
+</body>
+</html>
